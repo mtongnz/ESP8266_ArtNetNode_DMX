@@ -22,7 +22,7 @@ Once you have the device connecting correctly and the ArtNet settings done, try 
 
 If the device is working correctly, I would recommend setting the hot spot timeout to a higher number.
 
-#WIRING
+##WIRING
 I wont supply pin specific wiring as there are many different versions of the ESP8266.
 Note that a clean 3.3V supply with 300mA or more is highly recommended for stable operation.
 
@@ -40,7 +40,7 @@ Note that a clean 3.3V supply with 300mA or more is highly recommended for stabl
 ##DEBUG MODE
 For debugging, define VERBOSE (uncomment below) to get serial output at 115200 baud.  This will show SSID and passwords in plain text.  It also causes a minor hit to dmx timings, so leave it disabled for normal use.  It will however allow you to see when ArtNet packets and polls are recieved, how many channels in the packet,  any http requests...
 
-#CREDITS
+##CREDITS
 I have used a ton of sites and forums for information, ideas and code snippets.  I would like to thank the amazing communities surrounding the Arduino and ESP8266 devices.
 
 The main libraries/sources of code are:
