@@ -49,8 +49,8 @@ The main libraries/sources of code are:
   - ArtNet Library written for Arduino by Chris Staite, yourDream
 
 ##FILES
-ESP8266_ArtNetNode_DMX.ino  This is the main file. It contains the includes as well as the setup and loop functions.
 ```
+  ESP8266_ArtNetNode_DMX.ino  This is the main file. It contains the includes as well as the setup and loop functions.
   artNet.ino      All artNet functions
   eeprom.ino      Functions for saving and loading settings to eeprom
   globals.h       Global variable definitions
