@@ -1,5 +1,5 @@
 # ESP8266_ArtNetNode_DMX
-ESP8266 based ArtNet to DMX - Supports 2 full universes
+ESP8266 based WiFi ArtNet to DMX - Supports 2 full universes
 
 I am currently working on an Instructable for this project.  I will post here when it's ready.
 
