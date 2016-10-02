@@ -17,7 +17,7 @@ If not, see http://www.gnu.org/licenses/
 */
 
 
-#define FIRMWARE_VERSION "v1.0.4"
+#define FIRMWARE_VERSION "v1.0.5"
 
 // Uncomment the following line to enable serial debug output on Serial0
 //#define VERBOSE
@@ -152,4 +152,3 @@ void loop() {
   // Handle web requests
   webServer.handleClient();
 }
-
