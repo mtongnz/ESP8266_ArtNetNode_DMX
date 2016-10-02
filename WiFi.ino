@@ -59,7 +59,7 @@ void startWifi() {
   }
 
   // Get MAC Address
-  WiFi.macAddress(MAC_array);
+  getMac();
 
   // If static address, set our wifi to use it 
   if (dhcp != 1) {
@@ -112,9 +112,12 @@ void startHotSpot() {
   WiFi.disconnect();
   delay(1000);
   WiFi.softAP(ssidChar, passChar);
-
+  
   // Start webServer
   startWebServer();
+
+  // Get MAC Address
+  getMac();
   
   ip = WiFi.softAPIP();
   ap_ip = WiFi.softAPIP();
@@ -190,3 +193,18 @@ void startHotSpot() {
   ESP.restart();
 }
 
+
+/* getMac()
+ *  This gets the MAC address and formats it for later.
+ */
+void getMac() {
+  char MAC_char[30] = "";
+  
+  WiFi.macAddress(MAC_array);
+  
+  // Format the MAC address into string
+  sprintf(MAC_char, "%02X", MAC_array[0]);
+  for (int i = 1; i < 6; ++i)
+    sprintf(MAC_char, "%s:%02X", MAC_char, MAC_array[i]);
+  MAC_address = String(MAC_char);
+}
