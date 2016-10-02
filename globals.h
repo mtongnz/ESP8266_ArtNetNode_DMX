@@ -52,8 +52,8 @@ unsigned long lastWebServe = 0;
 unsigned long lastFullDMXA = 0;
 
 uint8_t MAC_array[6];
+String MAC_address;
 IPAddress ap_ip(2, 0, 0, 10);
 IPAddress ip(2, 0, 0, 10);
 IPAddress subnet(255, 0, 0, 0);
 IPAddress broadcast_ip(ip[0], 255, 255, 255);
-
