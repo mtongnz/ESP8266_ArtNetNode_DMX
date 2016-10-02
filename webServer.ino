@@ -161,14 +161,8 @@ void webHome() {
   String message = getFlashString(page_head);
   message += getFlashString(home_top);
 
-  // Format the MAC address
-  char MAC_char[30] = "";
-  sprintf(MAC_char, "%02X", MAC_array[0]);
-  for (int i = 1; i < 6; ++i)
-    sprintf(MAC_char, "%s : %02X", MAC_char, MAC_array[i]);
-  
   message += "<tr><td class='left'>Mac Address</td><td colspan=4>"
-        + String(MAC_char)
+        + MAC_address
         + "</td></tr>";
 
   // ****************** Create our settings form *************
@@ -601,4 +595,3 @@ void webNotFound() {
   webServer.sendHeader("Connection", "close");
   webServer.send(200, "text/html", message);
 }
-
