@@ -181,4 +181,3 @@ bool loadSettings() {
   // Return
   return true;
 }
-
