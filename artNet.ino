@@ -124,8 +124,8 @@ void sendArtNetReply() {
   replyBuffer[21] = 0;
   replyBuffer[22] = 0;      // ubea
   replyBuffer[23] = 160;    // status 1
-  replyBuffer[24] = 'x';    //     ESTA Code 'lx' = Claude Heintz Design
-  replyBuffer[25] = 'l';    //     seems DMX workshop reads these bytes backwards
+  replyBuffer[24] = 't';    //     ESTA Code byte 2
+  replyBuffer[25] = 'm';    //     ESTA Code byte 1
 
                             //short name
   for (int x = 26; x < 43; x++) {
