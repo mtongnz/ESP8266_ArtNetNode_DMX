@@ -5,7 +5,20 @@ View my Instructable for the device: http://www.instructables.com/id/ESP8266-Art
 
 This code requires my espDMX library available at https://github.com/mtongnz/espDMX and also the Arduino Core file for ESP8266 here: https://github.com/esp8266/Arduino
 
-Latest version: v1.0.5
+Latest Stable Version: v1.0.5
+Latest Release: v1.1.0
+
+##CHANGES
+Use modified open source LwIP: https://github.com/mtongnz/Arduino to allow setting of subnet in softAP mode.
+ - softAP uses 2.0.0.1 IP with subnet 255.0.0.0 in DHCP mode
+ - softAP allows a static IP and subnet to be set
+ - Added: stand alone mode (hotspot only - no wifi)
+ - Added: artnet can be received when in stand alone mode
+ - Added: setBroadcastAddr() function to calculate the subnet mask
+ - Modified web UI: stand alone mode toggle
+ - Modified web UI: images (help/view password)
+ - Modified web UI: view password toggle
+ - Modified web UI: help toggle buttons
 
 ##ABOUT
 This turns an ESP8266 into a wireless ArtNet Node.  It will connect to most standard wireless networks and allow a 2 full universes of DMX data to be output.
@@ -18,10 +31,10 @@ If the device is unable to connect to the WiFi (as will happen the first time it
 Firmware update is supported by web upload.  Simply goto the devices IP in a browser and upload the new firmware at the bottom of the main config page.  This is much easier than using a serial upload method - especially if the device is in an awkward to get to spot.
 
 ##FIRST RUN
-On the first run, power on unit and wait for the artNetNode_XXXX WiFi to appear on your laptop/phone... Connect to the network within 1 minute.  Point your browser to 192.168.4.1 and enter the settings desired.  Click save and reset button and it should now connect to your WiFi.
+On the first run, power on unit and wait for the artNetNode_XXXX WiFi to appear on your laptop/phone... Connect to the network within 1 minute.  Point your browser to 2.0.0.1 and enter the settings desired.  Click save and reset button and it should now connect to your WiFi.
 
 ##CHANGE SETTINGS LATER
-If the device connects to your WiFi successfully, simply head to it's IP in your browser and do as above.  Note that you can change ArtNet settings and they will take effect without a reset.  If the node fails to connect to your WiFi, it will start a hot spot after the preset time.
+If the device connects to your WiFi successfully, simply head to it's IP in your browser and do as above.  Note that you can change ArtNet settings and they will take effect without a reset.  If the node fails to connect to your WiFi, it will start a hot spot after the preset time.  You can also use stand alone mode if you wish to send artnet to the device directly (without an AP).
 
 ##GENERAL USE
 Once you have the device connecting correctly and the ArtNet settings done, try sending some data from your console. I reccommend sending directly to each device (rather than using ArtNet broadcast) as this will reduce network load. If you have heaps of devices (40+) connected to the same ArtNet Sub & Uni, then it's probably better to use broadcast - but I don't see why anyone would do this.
