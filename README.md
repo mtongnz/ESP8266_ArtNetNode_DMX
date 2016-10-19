@@ -6,7 +6,8 @@ View my Instructable for the device: http://www.instructables.com/id/ESP8266-Art
 This code requires my espDMX library available at https://github.com/mtongnz/espDMX and also the Arduino Core file for ESP8266 here: https://github.com/esp8266/Arduino
 
 Latest Stable Version: v1.0.5
-Latest Release: v1.1.0
+
+Latest Release Candidate: v1.1.0
 
 ##CHANGES
 Use modified open source LwIP: https://github.com/mtongnz/Arduino to allow setting of subnet in softAP mode.
