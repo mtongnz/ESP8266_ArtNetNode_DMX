@@ -124,8 +124,8 @@ void sendArtNetReply() {
   replyBuffer[21] = 0;
   replyBuffer[22] = 0;      // ubea
   replyBuffer[23] = 160;    // status 1
-  replyBuffer[24] = 't';    //     ESTA Code byte 2
-  replyBuffer[25] = 'm';    //     ESTA Code byte 1
+  replyBuffer[24] = 't';    //     ESTA Code (2 bytes)
+  replyBuffer[25] = 'm';
 
                             //short name
   for (int x = 26; x < 43; x++) {
@@ -177,3 +177,4 @@ int artNetOpCode(unsigned char* pbuff) {
   
   return 0;
 }
+

@@ -23,16 +23,19 @@ const char css[] PROGMEM = "body {text-align:center;background:#333;}\n"
     "table {margin-left:auto;margin-right:auto;max-width:500px;width:100%;border-collapse:collapse;border:none;}\n"
     "th {height:40px;background:#666;color:white;font-weight:bold;border:none;}\n"
     ".mini_head {height:20px;background:#999;}\n"
-    "td {padding:6px;border:1px solid #ccc;background:#eee;text-align:left;border:none;}\n"
+    "td {padding:6px;border:1px solid #ccc;background:#eee;text-align:left;border:none; position: relative;}\n"
     ".left {width:120px;text-align:right;vertical-align:top;}\n"
     ".centre {text-align: center;}\n"
-    "input:not(.number):not(.radio):not(.button) {width: 100%;}\n"
+    "input:not(.button) {float: left;}\n"
+    "input:not(.number):not(.radio):not(.button):not(.checkbox) {width: 100%;}\n"
+    "#viewWifiPass {width:18px, height:18px; position: absolute; top: 7px; right: 10px; }\n"
     ".number {width:50px;}\n"
     ".button {width:150px;margin:10px;}\n"
     ".static_table {border-collapse:collapse;}\n"
-    "p {padding:0px;margin:0px;font-size:14px;}\n"
-    "a {color:#00A;text-decoration:none;}"
-    "a:hover {color:#00F;text-decoration:underline;}";
+    "p {padding:0px;margin:0px;font-size:14px; clear: both;}\n"
+    "a {color:#00A;text-decoration:none;}\n"
+    "a:hover {color:#00F;text-decoration:underline;}\n"
+    ".round-button {display:block; float: left; margin-right: 7px; width:14px; height:14px; font-size:14px; line-height:14px; border-radius: 50%; color:#ffffff; text-align:center; text-decoration:none; background: #5555ff; box-shadow: 0 0 2px #9999ff; font-weight:bold; font-family: 'Comic Sans', serif;}";
     
 const char page_head[] PROGMEM = "<html><head><title>ArtNet Node Config</title>\n"
     "<link rel='stylesheet' type='text/css' href='/style.css'>\n"
@@ -161,6 +164,7 @@ void webHome() {
   String message = getFlashString(page_head);
   message += getFlashString(home_top);
 
+  // Our MAC Address
   message += "<tr><td class='left'>Mac Address</td><td colspan=4>"
         + MAC_address
         + "</td></tr>";
@@ -183,15 +187,34 @@ void webHome() {
       + "'></td></tr>\n";
 
   message += "<tr><td class='left'>Password</td><td colspan=4>\n"
-      "<input type='password' name='wifiPass' value='********'></td></tr>\n";
+      "<img id='viewWifiPass' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAiJJREFUOBHNkzFoU1EUhvNeQl4HQYdECLSgg05aOhTUKWQQCi1iBgkiOrjkJbxmKGpa6JBJkECG2IREcdAhuLiIg1NEsinoIIpEcLLEyUAoVR9J9DuX3HBTIwQnL5x37/nPf/577nn3BgL/w6jVavlKpbIgtVj/WhAiRcuybpD/sdPpnP6rULlcng+HwxcgniDhF6Pt+/6zXC73xRDxB4PBpWw2+/QPISk1GAyWSE4iEjxQ8QDBt8SWwcciwpkQYqfLYPcgHpIgSV2mV9gPsDjzEUwNYndd181p39YLRLYhN7QIeIOjHIO8gl3Ef6S5MsPzyMlrTFUEsEXgtgaZ39DAM5FI5DDH3LBt+xSY9MvHdrHjmB630ul00UIkhchjjco8HA7XM5nMTr1eb+ImBOMowMMkwkdx7wumB3hKjjYuTwcQ/jxan9MY8778HZK+Gphawt+0+/3+VXbrmUECi1RaBJsz8IeyJrZkYFJpD7umelStVuOU/ByCSiTwkwQHX3pyE3tHH15wt6KO47zHj2Ii8h1bow1N9dco+SX4eeybEEYisiwhUKbxLfqV4IK2wLRIF96qiAhRVSQLGZAfMF1XzujDjnskhHDNY74Gv8K1+KS5qiJxRj0RER/SHWY5glQnl1Mf+QPNdqnwrCmiePIRERLkAU5ce3B5ZydJtnhTbc/z2sKfNqxCoRCKxWJPCK7oBziNOBOGWJjdzTszU55J+g2ntvCk6kL2lQAAAABJRU5ErkJggg=='"
+      " onClick=\"javascript: var inp = document.getElementById('wifiPass'); var pic = document.getElementById('viewWifiPass');"
+      " if (inp.type == 'text') { inp.type = 'password'; pic.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAdxJREFUOBHdUjtIQmEYvV5fBUEFOggFLdkQFERkS0O0NEQQDRFBY15RHGqQrMGptgJR1JYgyIbAofYamipoK0inKFBIiB5Qvjvn+l+5We3RD/d+33fO+c7/lKR/Owy/7SwcDndZLJZp8L1CkykWi0d+v//hp55vRtFotNtoNG4ZDIYZNBibmiqoU+VyecXr9d7ruS9G8Xh8HuQOTNooqtVqTwgXzDFGgHcyAf6GsKQoygFrDrkeJAkm6xAmNRPgSWylB+JJfsyJUU8NtbFYbI01h7oimKyC2KhD6v8qm826bDZbO7a5LMtyrVQqbefz+WeHw3EOxZCmxeqCmGhThslck4lUrVZ3Q6FQ2Ww2H8IkiKY15sTIaSaM7KUHtxbQE4K8E9iwjlNzNGqcjpICMpa2CORVjwIbYI24p+G6fFDDhOaFHtoZTQA8xmytQvRYKBT68WYeE4nEODG3232Kt2W3Wq3XKO3EYPCOb8rj8ZyoRgRFQwppB2sIbmHswaGfscYhjwGLAesT/BPyWU7AumHEIhKJOE0m0z4E+rP5IIfRUg/q/xKmC7itjIY13hEBn8+XzuVyLtyMAuGNENFANSFGDqsc1ZtQ92VForERuEK8IyeBSqWS5kQN8s8nn9HVzS14VqbqAAAAAElFTkSuQmCC';"
+      " } else { inp.type = 'text'; pic.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAASCAYAAABWzo5XAAAAAXNSR0IArs4c6QAAAiJJREFUOBHNkzFoU1EUhvNeQl4HQYdECLSgg05aOhTUKWQQCi1iBgkiOrjkJbxmKGpa6JBJkECG2IREcdAhuLiIg1NEsinoIIpEcLLEyUAoVR9J9DuX3HBTIwQnL5x37/nPf/577nn3BgL/w6jVavlKpbIgtVj/WhAiRcuybpD/sdPpnP6rULlcng+HwxcgniDhF6Pt+/6zXC73xRDxB4PBpWw2+/QPISk1GAyWSE4iEjxQ8QDBt8SWwcciwpkQYqfLYPcgHpIgSV2mV9gPsDjzEUwNYndd181p39YLRLYhN7QIeIOjHIO8gl3Ef6S5MsPzyMlrTFUEsEXgtgaZ39DAM5FI5DDH3LBt+xSY9MvHdrHjmB630ul00UIkhchjjco8HA7XM5nMTr1eb+ImBOMowMMkwkdx7wumB3hKjjYuTwcQ/jxan9MY8778HZK+Gphawt+0+/3+VXbrmUECi1RaBJsz8IeyJrZkYFJpD7umelStVuOU/ByCSiTwkwQHX3pyE3tHH15wt6KO47zHj2Ii8h1bow1N9dco+SX4eeybEEYisiwhUKbxLfqV4IK2wLRIF96qiAhRVSQLGZAfMF1XzujDjnskhHDNY74Gv8K1+KS5qiJxRj0RER/SHWY5glQnl1Mf+QPNdqnwrCmiePIRERLkAU5ce3B5ZydJtnhTbc/z2sKfNqxCoRCKxWJPCK7oBziNOBOGWJjdzTszU55J+g2ntvCk6kL2lQAAAABJRU5ErkJggg=='; }"
+      "\" alt='View/Hide Password' />\n"
+      "<input type='password' name='wifiPass' id='wifiPass' value='********'>\n"
+      "</td></tr>\n";
 
-  message += "<tr><td class='left'>HotSpot Timeout</td><td colspan=4>\n"
+  // ******* Hotspot Settings *********
+  
+  message += "\n<tr><th colspan=5 class='mini_head'>Wifi Hotspot</th>\n";
+
+  message += "<tr><td class='left'>Start Delay</td><td colspan=4>\n"
+      "<a href='#' onClick=\"javascript: var help = document.getElementById('helpHotSpotTimeout').style; if (help.display == 'none') {help.display='block';} else { help.display='none';}\" class='round-button'>?</a>\n"
       "<input type='number' name='hotSpotDelay' value='"
       + String(hotSpotDelay)
       + "' min='10' max='65000' class='number'>\n"
-      "<p>HotSpot will start after <i>x</i> seconds if it can't connect to WiFi.</p></td></tr>\n";
+      "<p id='helpHotSpotTimeout' style='display:none;'>The hotspot will start after <i>x</i> seconds if it can't connect to the WiFi specified above.  This will only occur on power up and not after a dropped WiFi connection.</p>\n"
+      "</td></tr>\n";
 
+  message += "<tr><td class='left'>Stand Alone</td><td colspan = 4>\n"
+      "<a href='#' onClick=\"javascript: var help = document.getElementById('helpStandAlone').style; if (help.display == 'none') {help.display='block';} else { help.display='none';}\" class='round-button'>?</a>\n"
+      "<input type='checkbox' name='standAlone' value='true' class='checkbox'";
+  message += (standAlone == 1) ? " checked>\n" : ">\n";
+  message += "<p id='helpStandAlone' style='display:none;'>Disable connecting to WiFi, have hotpot always enabled and enable receiving ArtNet through the hotspot.<br />By default, the device will connect to a WiFi network to receive ArtNet.  HotSpot is only for accessing this settings page.</p>\n"
+      "</td></tr>\n";
 
+      
   // ********* ArtNet Settings ********
   
   message += "\n<tr><th colspan=5 class='mini_head'>Artnet</th></tr>\n";
@@ -336,6 +359,12 @@ void webSave() {
 
   // Copy data into our variables
   webServer.arg("nodeName").toCharArray(nodeName, 30);
+
+  // Checkbox for stand alone mode
+  if (webServer.hasArg("standAlone"))
+    standAlone = 1;
+  else
+    standAlone = 0;
 
   // Get numbers
   artNetSub = webServer.arg("artNetSub").toInt();
@@ -595,3 +624,4 @@ void webNotFound() {
   webServer.sendHeader("Connection", "close");
   webServer.send(200, "text/html", message);
 }
+
