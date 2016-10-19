@@ -17,7 +17,7 @@ If not, see http://www.gnu.org/licenses/
 */
 
 
-#define FIRMWARE_VERSION "v1.0.5"
+#define FIRMWARE_VERSION "v1.1.0"
 
 // Uncomment the following line to enable serial debug output on Serial0
 //#define VERBOSE
@@ -70,6 +70,10 @@ void setup() {
   #endif
 
   #ifdef LOAD_DEFAULTS
+    #ifdef VERBOSE
+      Serial.println("Load Default Settings:");
+    #endif
+    
     saveSettings();
     startHotSpot();
   #else
@@ -78,8 +82,17 @@ void setup() {
       startHotSpot();
   #endif
   
-  // Start WiFi and WebServer
-  startWifi();
+  // Start hotspot if we're in standAlone mode otherwise we start the wifi
+  if (standAlone == 1)
+    startHotSpot();
+  else {
+    startWifi();
+    
+    // Dont allow hotspot to run after this initial setup - must restart device to start it again
+    allowHotSpot = 0;
+  }
+  
+  // Start WebServer
   startWebServer();
   
   // Start listening for UDP packets
@@ -87,9 +100,6 @@ void setup() {
 
   // Send ArtNet Reply
   sendArtNetReply();
-
-  // Dont allow hotspot to run after this initial setup - must restart device to start it again
-  allowHotSpot = 0;
   
   digitalWrite(LED1, LOW);
   digitalWrite(LED2, LOW);
@@ -117,7 +127,7 @@ void setup() {
 
 void loop() {
   // Check WiFi conection
-  if (WiFi.status() != WL_CONNECTED) {
+  if (standAlone != 1 && WiFi.status() != WL_CONNECTED) {
     #ifdef VERBOSE
       Serial.println("Wifi Connection Lost");
       Serial.println("Reconnecting");
@@ -152,3 +162,4 @@ void loop() {
   // Handle web requests
   webServer.handleClient();
 }
+
