@@ -10,7 +10,9 @@ Latest Stable Version: v1.0.5
 Latest Release Candidate: v1.1.1
 
 ##CHANGES v1.1.1
-Updated open source LwIP: https://github.com/mtongnz/Arduino to allow other espArtnetNodes to connect to the node when in hotspot mode.  Source code is the same as v1.1.0 but LwIP has IP_FORWARD enabled: https://github.com/mtongnz/Arduino/pull/2
+Updated open source LwIP: https://github.com/mtongnz/Arduino to allow other espArtnetNodes to connect to the node when in hotspot mode.  
+
+Source code is the same as v1.1.0 but LwIP has IP_FORWARD enabled: https://github.com/mtongnz/Arduino/pull/2
 
 ##CHANGES v1.1.0
 Use modified open source LwIP: https://github.com/mtongnz/Arduino to allow setting of subnet in softAP mode.
