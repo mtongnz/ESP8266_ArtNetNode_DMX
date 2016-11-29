@@ -7,9 +7,12 @@ This code requires my espDMX library available at https://github.com/mtongnz/esp
 
 Latest Stable Version: v1.0.5
 
-Latest Release Candidate: v1.1.0
+Latest Release Candidate: v1.1.1
 
-##CHANGES
+##CHANGES v1.1.1
+Updated open source LwIP: https://github.com/mtongnz/Arduino to allow other espArtnetNodes to connect to the node when in hotspot mode.  Source code is the same as v1.1.0 but LwIP has IP_FORWARD enabled: https://github.com/mtongnz/Arduino/pull/2
+
+##CHANGES v1.1.0
 Use modified open source LwIP: https://github.com/mtongnz/Arduino to allow setting of subnet in softAP mode.
  - softAP uses 2.0.0.1 IP with subnet 255.0.0.0 in DHCP mode
  - softAP allows a static IP and subnet to be set
