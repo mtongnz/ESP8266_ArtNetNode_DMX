@@ -7,7 +7,7 @@ This code requires my espDMX library available at https://github.com/mtongnz/esp
 
 Latest version: v1.0.5
 
-Latest Release Candidate: v1.1.1 https://github.com/mtongnz/ESP8266_ArtNetNode_DMX/tree/1.1.1
+Latest Release Candidate: v1.1.1 https://github.com/mtongnz/ESP8266_ArtNetNode_DMX/tree/v1.1.1
 
 ##ABOUT
 This turns an ESP8266 into a wireless ArtNet Node.  It will connect to most standard wireless networks and allow a 2 full universes of DMX data to be output.
