@@ -52,6 +52,9 @@ bool restart = 0;
 unsigned long lastWebServe = 0;
 unsigned long lastFullDMXA = 0;
 
+bool outputScene = 0;
+uint16_t outputSceneNum = 0;
+
 uint8_t MAC_array[6];
 String MAC_address;
 IPAddress ap_ip(2, 0, 0, 10);

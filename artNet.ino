@@ -54,6 +54,10 @@ int checkForNewData(byte *latest, byte *current, int len) {
  *  Handles ArtNet DMX packets
  */
 void artDMXReceived(unsigned char* pbuff) {
+  // Don't collect Artnet if we're outputting from stored scenes
+  if (outputScene == 1)
+    return;
+
   // Check Subnet
   if ( (pbuff[14] >> 4) != artNetSub )
     return;

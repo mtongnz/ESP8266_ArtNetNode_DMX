@@ -1,19 +1,14 @@
 /*
-
 ESP8266_ArtNetNode_DMX - WiFi.ino
 Copyright (c) 2015, Matthew Tong    
 https://github.com/mtongnz/ESP8266_ArtNetNode_DMX
-
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any
 later version.
-
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License along with this program.
 If not, see http://www.gnu.org/licenses/
-
 */
 
 
@@ -241,4 +236,3 @@ void getMac() {
 void setBroadcastAddr() {
   broadcast_ip = {~subnet[0] | (ip[0] & subnet[0]), ~subnet[1] | (ip[1] & subnet[1]), ~subnet[2] | (ip[2] & subnet[2]), ~subnet[3] | (ip[3] & subnet[3])};
 }
-
