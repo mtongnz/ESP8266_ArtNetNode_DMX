@@ -7,7 +7,7 @@ This code requires my espDMX library available at https://github.com/mtongnz/esp
 
 Latest Stable Version: v1.0.5
 
-Latest Release Candidate: v1.1.1
+Latest Release Candidate: v1.2.0 https://github.com/mtongnz/ESP8266_ArtNetNode_DMX/tree/v1.2.0
 
 ##CHANGES
 Use modified open source LwIP: https://github.com/mtongnz/Arduino to allow setting of subnet in softAP mode.
