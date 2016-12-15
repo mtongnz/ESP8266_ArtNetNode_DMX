@@ -72,6 +72,7 @@ bool saveSettings() {
   EEPROM.write(104, subnet[3]);
   EEPROM.write(106, hotSpotDelay & 0xFF);
   EEPROM.write(107, (hotSpotDelay >> 8) & 0xFF);
+  EEPROM.write(108, standAlone);
 
   EEPROM.write(500, 'O');
   EEPROM.write(501, 'K');
@@ -119,6 +120,7 @@ bool loadSettings() {
   }
   
   hotSpotDelay = (EEPROM.read(106) & 0xFF) + ((EEPROM.read(107) << 8) & 0xFF00);
+  standAlone = EEPROM.read(108);
   
   // Check if we have previous saves.  If not, return false
   if(EEPROM.read(500) != 'O' || EEPROM.read(501) != 'K') {
@@ -181,3 +183,4 @@ bool loadSettings() {
   // Return
   return true;
 }
+

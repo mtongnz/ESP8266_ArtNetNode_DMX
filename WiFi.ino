@@ -1,19 +1,14 @@
 /*
-
 ESP8266_ArtNetNode_DMX - WiFi.ino
 Copyright (c) 2015, Matthew Tong    
 https://github.com/mtongnz/ESP8266_ArtNetNode_DMX
-
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any
 later version.
-
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License along with this program.
 If not, see http://www.gnu.org/licenses/
-
 */
 
 
@@ -71,18 +66,21 @@ void startWifi() {
     ap_ip = WiFi.localIP();
     ip = WiFi.localIP();
     subnet = WiFi.subnetMask();
-    broadcast_ip = {0, 255, 255, 255};
-    broadcast_ip[0] = ip[0];
   }
+  
+  // Set our broadcast address
+  setBroadcastAddr();
   
   #ifdef VERBOSE
     Serial.println(" connected");
     Serial.print("IP: ");
     Serial.println(ip);
-    Serial.print("Broadcast IP: ");
+    Serial.print("Broadcast Address: ");
     Serial.println(broadcast_ip);
     Serial.print("Subnet: ");
     Serial.println(subnet);
+    Serial.print("MAC Address: ");
+    Serial.println(MAC_address);
   #endif
 }
 
@@ -92,6 +90,10 @@ void startWifi() {
  *  It also resets our device after set timeouts.
  */
 void startHotSpot() {
+  #ifdef VERBOSE
+    Serial.print("Starting Hotspot... ");
+  #endif
+ 
   // Let other functions know we're a hot spot now
   isHotSpot = 1;
   
@@ -108,32 +110,56 @@ void startHotSpot() {
   char passChar[password.length()];
   password.toCharArray(passChar, password.length());
 
-  // disable wifi and start softAP
-  WiFi.disconnect();
-  delay(1000);
+  // start softAP
+  WiFi.mode(WIFI_AP);
   WiFi.softAP(ssidChar, passChar);
-  
-  // Start webServer
-  startWebServer();
 
+  #ifdef VERBOSE
+    Serial.println("done!");
+  #endif
+
+  // Get IPs for DHCP
+  if (dhcp == 1) {
+    dhcp = 1;
+    ap_ip = {2, 0, 0, 1};
+    ip = ap_ip;
+    subnet = {255, 0, 0, 0};
+
+  // Set IP for Static
+  } else
+    ap_ip = ip;
+  
+  WiFi.softAPConfig(ap_ip, ap_ip, subnet);
+
+  // Set our broadcast address
+  setBroadcastAddr();
+  
   // Get MAC Address
   getMac();
-  
-  ip = WiFi.softAPIP();
-  ap_ip = WiFi.softAPIP();
-  
+
   #ifdef VERBOSE
     Serial.print("SSID: ");
     Serial.println(ssidChar);
     Serial.print("Password: ");
     Serial.println(passChar);
   
-    Serial.print("AP IP address: ");
-    Serial.println(ip);
-  
-    Serial.print("Waiting for client to connect");
+    Serial.print("IP: ");
+    Serial.println(ap_ip);
+    Serial.print("Subnet: ");
+    Serial.println(subnet);
+    Serial.print("Broadcast Address: ");
+    Serial.println(broadcast_ip);
+    Serial.print("MAC Address: ");
+    Serial.println(MAC_address);
   #endif
+  
+  // If standAlone, return to main loop
+  if (standAlone == 1)
+    return;
 
+  // Start webServer
+  startWebServer();
+  
   // Set timer
   unsigned long startTime = millis();
 
@@ -155,10 +181,6 @@ void startHotSpot() {
       digitalWrite(LED1, LOW);
       digitalWrite(LED2, LOW);
       
-      #ifdef VERBOSE
-        Serial.println(" done.");
-      #endif
-      
       // main loop
       while(1) {
         // handle web requests only when in hotSpot mode
@@ -176,9 +198,6 @@ void startHotSpot() {
         delay(10);
       }
     }
-    #ifdef VERBOSE
-      Serial.print(".");
-    #endif
 
     // yield to core esp functions
     delay(100);
@@ -186,10 +205,11 @@ void startHotSpot() {
 
   // no clients connected within 1 minute - reset device
   #ifdef VERBOSE
-    Serial.println(" timeout!");
+    Serial.println(" No clients connected!");
     Serial.println("Reseting...");
   #endif
-  
+
+  delay(100);
   ESP.restart();
 }
 
@@ -205,6 +225,14 @@ void getMac() {
   // Format the MAC address into string
   sprintf(MAC_char, "%02X", MAC_array[0]);
   for (int i = 1; i < 6; ++i)
-    sprintf(MAC_char, "%s:%02X", MAC_char, MAC_array[i]);
+    sprintf(MAC_char, "%s : %02X", MAC_char, MAC_array[i]);
   MAC_address = String(MAC_char);
+}
+
+
+/* setBroadcastAddr()
+ *  Calculates and sets the broadcast address using the IP and subnet
+ */
+void setBroadcastAddr() {
+  broadcast_ip = {~subnet[0] | (ip[0] & subnet[0]), ~subnet[1] | (ip[1] & subnet[1]), ~subnet[2] | (ip[2] & subnet[2]), ~subnet[3] | (ip[3] & subnet[3])};
 }

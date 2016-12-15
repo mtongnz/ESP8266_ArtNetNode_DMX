@@ -1,23 +1,18 @@
 /*
-
 ESP8266_ArtNetNode_DMX
 Copyright (c) 2016, Matthew Tong
 https://github.com/mtongnz/ESP8266_ArtNetNode_DMX
-
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
 License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any
 later version.
-
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
 You should have received a copy of the GNU General Public License along with this program.
 If not, see http://www.gnu.org/licenses/
-
 */
 
 
-#define FIRMWARE_VERSION "v1.0.5"
+#define FIRMWARE_VERSION "v1.2.0"
 
 // Uncomment the following line to enable serial debug output on Serial0
 //#define VERBOSE
@@ -35,6 +30,7 @@ If not, see http://www.gnu.org/licenses/
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <EEPROM.h>
+#include <FS.h>
 #include <espDMX.h>
 #include <pgmspace.h>
 #include <string.h>
@@ -54,6 +50,8 @@ extern "C" {
 
 void setup() {
   EEPROM.begin(512);
+
+  storeInit();
   
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
@@ -70,6 +68,10 @@ void setup() {
   #endif
 
   #ifdef LOAD_DEFAULTS
+    #ifdef VERBOSE
+      Serial.println("Load Default Settings:");
+    #endif
+    
     saveSettings();
     startHotSpot();
   #else
@@ -78,8 +80,17 @@ void setup() {
       startHotSpot();
   #endif
   
-  // Start WiFi and WebServer
-  startWifi();
+  // Start hotspot if we're in standAlone mode otherwise we start the wifi
+  if (standAlone == 1)
+    startHotSpot();
+  else {
+    startWifi();
+    
+    // Dont allow hotspot to run after this initial setup - must restart device to start it again
+    allowHotSpot = 0;
+  }
+  
+  // Start WebServer
   startWebServer();
   
   // Start listening for UDP packets
@@ -87,9 +98,6 @@ void setup() {
 
   // Send ArtNet Reply
   sendArtNetReply();
-
-  // Dont allow hotspot to run after this initial setup - must restart device to start it again
-  allowHotSpot = 0;
   
   digitalWrite(LED1, LOW);
   digitalWrite(LED2, LOW);
@@ -105,19 +113,17 @@ void setup() {
 
 
 /************************************************************************
-
   The main loop checks WiFi connection.  It will continuously try to reconnect if WiFi is dropped.
   It then checks for and reads packets from UDP. When a packet is recieved, it is checked to see if it is
   valid Art-Net and the artDMXReceived function is called, sending the DMX values to the output.
   Then it checks when the last full DMX universe was sent.  If it was more than 1 second, we transmit a full
   universe.
   The last thing we do is handle any web requests.
-
 *************************************************************************/
 
 void loop() {
   // Check WiFi conection
-  if (WiFi.status() != WL_CONNECTED) {
+  if (standAlone != 1 && WiFi.status() != WL_CONNECTED) {
     #ifdef VERBOSE
       Serial.println("Wifi Connection Lost");
       Serial.println("Reconnecting");
