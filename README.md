@@ -7,9 +7,7 @@ Note that I've updated the espDMX library to add new functions required for this
 
 This code requires my espDMX library available at https://github.com/mtongnz/espDMX and also the Arduino Core file for ESP8266 here: https://github.com/esp8266/Arduino
 
-Latest Stable Version: v1.0.5
-
-Latest Release Candidate: v1.2.0
+Latest Release: v1.2.0
 
 ##CHANGES v1.2.0
  - Uses latest version of espDMX to increase refresh rate and add new features.
