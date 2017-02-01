@@ -1,6 +1,8 @@
 # ESP8266_ArtNetNode_DMX
 ESP8266 based WiFi ArtNet to DMX - Supports 2 full universes
 
+The new and improved ArtNetNode_V2 is currently in beta here: https://github.com/mtongnz/ESP8266_ArtNetNode_v2
+
 View my Instructable for the device: http://www.instructables.com/id/ESP8266-Artnet-to-DMX/
 
 Note that I've updated the espDMX library to add new functions required for this update.  Make sure you get the latest version.  The new version should still work fine with any of your existing code.
@@ -8,6 +10,8 @@ Note that I've updated the espDMX library to add new functions required for this
 This code requires my espDMX library available at https://github.com/mtongnz/espDMX and also the Arduino Core file for ESP8266 here: https://github.com/esp8266/Arduino
 
 Latest Release: v1.2.0
+
+If you find this project helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
 
 ##CHANGES v1.2.0
  - Uses latest version of espDMX to increase refresh rate and add new features.
