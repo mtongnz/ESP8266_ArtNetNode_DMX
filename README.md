@@ -9,9 +9,9 @@ Note that I've updated the espDMX library to add new functions required for this
 
 This code requires my espDMX library available at https://github.com/mtongnz/espDMX and also the Arduino Core file for ESP8266 here: https://github.com/esp8266/Arduino
 
-Latest Release: v1.2.0
-
 If you find this project helpful and you're feeling generous, I'd love for you to buy me a beer: https://www.paypal.me/mtongnz
+
+Latest Release: v1.2.0
 
 ##CHANGES v1.2.0
  - Uses latest version of espDMX to increase refresh rate and add new features.
